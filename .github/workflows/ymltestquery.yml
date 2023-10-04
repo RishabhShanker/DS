@@ -1,0 +1,30 @@
+name: Anyname_Test
+
+on:
+  push:
+    branches: [ "main" ]
+
+ 
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    environment: cicd_databricks
+
+ 
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+ 
+
+      - name: Install databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+      - name: Update databricks repo
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          databricks repos update /Repos/Rishabh.Shankar@nike.com/FinanaceData --branch main
